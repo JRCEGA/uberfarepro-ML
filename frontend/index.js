@@ -86,3 +86,24 @@ function resetPins() {
     console.log("Reseting pointers...")
     location.reload();
 }
+
+function actualizarFechaHora() {
+    var elementoFechaHora = document.getElementById('fechaHora');
+    var fecha = new Date();
+    
+    // Personaliza el formato de fecha y hora según prefieras
+    elementoFechaHora.innerHTML = fecha.toLocaleString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+  
+  // Actualiza la fecha y hora cada segundo
+  setInterval(actualizarFechaHora, 1000);
+  
+  // Inicializa con la fecha y hora actuales al cargar la página
+  actualizarFechaHora();
+  
+
+function resetPins() {
+    // This function resets the pointers on the map to set up new pickup and dropoff locations
+    console.log("Reseting pointers...")
+    location.reload();
+}
