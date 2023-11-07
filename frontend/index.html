@@ -1,83 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-    <style>
-        #map { height: 400px; width: 600px; }
-    </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="index.css" />
     <title>UberFare Pro</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>UberFare Pro</h2>
     <h3>The best times to book uber rides</h3>
     <div id="map"></div>
     <p>Pickup Location: <span id="pickup-info">None</span></p>
     <p>Dropoff Location: <span id="dropoff-info">None</span></p>
+    <p>Distance: <span id="disance-info">None</span></p>
+    <button onclick="resetPins()">Reset</button>
     <button onclick="getTopFares()">Go</button>
     <ul id="fare-list"></ul>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        let map = L.map('map').fitWorld();
-        let pickupMarker;
-        let dropoffMarker;
-
-        // Initialize the map and set its view to the user's current position
-        map.locate({setView: true, maxZoom: 16});
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Handle a user's location found
-        function onLocationFound(e) {
-            let radius = e.accuracy / 2;
-
-            L.marker(e.latlng).addTo(map)
-                .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-            L.circle(e.latlng, radius).addTo(map);
-        }
-
-        map.on('locationfound', onLocationFound);
-
-        // Handle the case where the user's location can't be found
-        function onLocationError(e) {
-            alert(e.message);
-        }
-
-        map.on('locationerror', onLocationError);
-
-        // Function to add a marker for pickup or dropoff
-        function addMarker(e) {
-            // Add the first marker as the pickup location
-            if (!pickupMarker) {
-                pickupMarker = new L.marker(e.latlng, {
-                    draggable: true
-                }).addTo(map).bindPopup("Pickup Location").openPopup();
-
-                document.getElementById('pickup-info').textContent = pickupMarker.getLatLng().toString();
-            } else if (!dropoffMarker) {
-                // Add the next marker as the dropoff location
-                dropoffMarker = new L.marker(e.latlng, {
-                    draggable: true
-                }).addTo(map).bindPopup("Dropoff Location").openPopup();
-
-                document.getElementById('dropoff-info').textContent = dropoffMarker.getLatLng().toString();
-            }
-            // If both markers exist, don't add more
-        }
-
-        // Event listener for adding markers
-        map.on('click', addMarker);
-
-        function getTopFares() {
-            // This function should be implemented to interact with your backend
-            console.log('Fetching top fares...');
-            // Add your fetch logic here
-        }
-    </script>
-</body>
+    <script src="index.js"></script>
+  </body>
 </html>
