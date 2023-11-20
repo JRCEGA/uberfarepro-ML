@@ -3,25 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
     <link rel="stylesheet" href="index.css" />
     <title>UberFare Pro</title>
   </head>
   <body>
-    <h2>UberFare Pro</h2>
-    <h3>The best times to book uber rides</h3>
-    <div id="map"></div>
-    <p>Pickup Location: <span id="pickup-info">None</span></p>
-    <p>Dropoff Location: <span id="dropoff-info">None</span></p>
-    <p>Distance: <span id="disance-info">None</span></p>
-    <button onclick="resetPins()">Reset</button>
-    <button onclick="getTopFares()">Go</button>
-    <ul id="fare-list"></ul>
+    <div class="main-title">
+      <h1>UberFare Pro <i class='bx bxs-car'></i> </h1>
+    </div>
+    <div class="container">
+      <div class="main-intro">
+        <h2>THE BEST TIMES TO BOOK UBER RIDES</h2>
+        <h4>Today is: <span id="fechaHora"></span></h4>
+      </div>
+      <div class="map-info">
+        <div id="map"></div>
+          <div class="loc-indicators">
+            <p> <i class='bx bx-log-in-circle' ></i> Pickup Location: <br> <span id="pickup-info">None</span></p>
+            <p> <i class='bx bx-log-out-circle' ></i> Dropoff Location: <br> <span id="dropoff-info">None</span></p>
+            <p> <i class='bx bx-run' ></i> Distance: <br> <span id="disance-info">None</span></p>
+          </div>
+      </div>
+      <div class="btn-container">
+        <button onclick="resetPins()">Reset</button>
+        <button onclick="getTopFares()">Go</button>
+        <ul id="fare-list"></ul>
+      </div>
+    </div>
+    <div class="credits">
+      <p> <i class='bx bx-copyright'></i>2023. Axel Cruz. Ana Paola Paez. Roberto Cebreros Garcia</p>
+    </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

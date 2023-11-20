@@ -86,3 +86,16 @@ function resetPins() {
     console.log("Reseting pointers...")
     location.reload();
 }
+
+function updateDateTime() {
+    var elementDateTime = document.getElementById("fechaHora");
+    var date = new Date();
+
+    // inits date and time format
+    elementDateTime.innerHTML = date.toLocaleString('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+// Updates date and time every second
+setInterval(updateDateTime, 1000);
+
+// Page inits with current date and time
