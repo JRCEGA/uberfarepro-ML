@@ -1,4 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 #map {
+
     height: 400px;
     width: 600px;
+}
+
+body{
+    background: rgb(0,0,0);
+    background: linear-gradient(35deg, rgba(0,0,0,1) 0%, rgba(70,70,70,1) 100%);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    background-color: rgb(187, 187, 187); /* El color de fondo de la caja */
+    padding: 25px; /* Espacio entre el contenido y los bordes de la caja */
+    margin: auto; /* Para centrar la caja si tiene un ancho fijo */
+    max-width: 1200px; /* El ancho máximo de la caja, o lo que prefieras */
+    box-shadow: 0 5 15px rgba(0,0,0,0.35); /* Sombra suave alrededor de la caja */
+    border-radius: 25px; /* Esquinas redondeadas de la caja */
+    height: auto; /* Altura automática basada en el contenido */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es más alto */
+  }
+
+.credits {
+    color: rgb(187, 187, 187);
+    text-align: right;
+}
+
+.main-title{
+    text-align: center;
+    font-size: 35px;
+    color: rgb(187, 187, 187);
+    transform: translateY(230px);
+}
+
+.main-intro{
+    text-align: center;
+    transform: translateY(-10px)
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.btn-container button{
+    border-radius: 25px;
+    width: 35%;
+    font-weight: 700;
+    outline: none;
+    padding: 10px;
+    box-shadow: 0 5 15px rgba(0,0,0,0.35);
+    cursor: pointer;
+    border: none;
+    background: rgb(112, 112, 112);
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-container button:hover{
+    background: rgb(58, 58, 58);
+}
+
+.map-info{
+    display: flex;
+    flex-direction: row; /* Alinea los hijos horizontalmente */
+    justify-content: start; /* Alinea los hijos al principio del contenedor */
+    align-items: flex-start; /* Alinea los hijos al principio del contenedor en el eje cruzado */
+    gap: 20px; /* Espacio entre el mapa y los indicadores */
+}
+
+.loc-indicators{
+    font-size: 20px;
 }

@@ -72,13 +72,34 @@ function addMarker(e) {
 // Event listener for adding markers
 map.on("click", addMarker);
 
-function getTopFares() {
-    // This function should be implemented to interact with your backend
+async function getTopFares() {
     console.log("Fetching top fares...");
-    
-    // fetch("/get-estimations", (err, req) => {
-    //     req.
-    // })
+    if (!pickupMarker || !dropoffMarker) {
+        $('#go-modal').modal('toggle')
+    } else {
+        await fetch('http://localhost:5000/get-fares', {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                displayData(data);
+            })
+            .catch(error => console.error('Error fetching data: ', error));
+    }
+}
+
+function displayData(data) {
+    const modalBody = $('#data-modal .modal-body')
+    modalBody.empty()
+
+    data.forEach(record => {
+        const recordDiv = $('<div></div>')
+        recordDiv.text(`Column1: ${record.dropoff_latitude}, Column2: ${record.dropoff_longitude}`)
+        modalBody.append(recordDiv)
+    })
+
+    $('#data-modal').modal('toggle')
 }
 
 function resetPins() {
