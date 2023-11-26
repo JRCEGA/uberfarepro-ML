@@ -7,11 +7,15 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/")
-def index():
-    return "Hello, world!"
+df = pd.read_csv("./data/predictions.csv")
 
-@app.route("/get-fares")
+@app.route('/get-fares', methods=['POST'])
 def getFares():
-    df = pd.read_csv("./data/fares.csv")
-    return json.loads(df.head().to_json(orient='records'))
+    data = request.json
+    print("dataaaaaaaa", data)
+    r_dist = data['distance']
+    df['Distance_diff'] = abs(df['Distance'] - r_dist)
+    top_rows = df.nsmallest(5, 'Distance_diff')
+    top_rows = top_rows.drop(columns=['Distance_diff'])
+    top_rows_json = top_rows.to_json(orient='records')
+    return json.loads(top_rows_json)

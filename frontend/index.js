@@ -72,13 +72,17 @@ function addMarker(e) {
 // Event listener for adding markers
 map.on("click", addMarker);
 
-async function getTopFares() {
+async function getTopFares(dist) {
     console.log("Fetching top fares...");
     if (!pickupMarker || !dropoffMarker) {
         $('#go-modal').modal('toggle')
     } else {
         await fetch('http://localhost:5000/get-fares', {
-            method: 'GET',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'distance': dist})
         })
             .then(response => response.json())
             .then(data => {
@@ -93,9 +97,9 @@ function displayData(data) {
     const modalBody = $('#data-modal .modal-body')
     modalBody.empty()
 
-    data.forEach(record => {
+    data.forEach((record, index) => {
         const recordDiv = $('<div></div>')
-        recordDiv.text(`Column1: ${record.dropoff_latitude}, Column2: ${record.dropoff_longitude}`)
+        recordDiv.text(`Hour Segment: ${record.Hour_Segment}`)
         modalBody.append(recordDiv)
     })
 
