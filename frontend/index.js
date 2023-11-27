@@ -1,6 +1,25 @@
+const elementDateTime = document.getElementById("fechaHora");
+
 let map = L.map("map").fitWorld();
 let pickupMarker;
 let dropoffMarker;
+let dist;
+let date;
+
+function getDistance(start, end) {
+    let distance = map.distance(start, end).toFixed(0)
+    console.log(distance)
+    return distance
+}
+
+function transformHourSegment(s) {
+    if (s < 1) return "00:00 am - 03:59 am";
+    else if (s < 2) return "04:00 am - 07:59 am"
+    else if (s < 3) return "08:00 am - 11:59 am";
+    else if (s < 4) return "12:00 pm - 03:59 pm";
+    else if (s < 5) return "04:00 pm - 07:59 pm";
+    else return "08:00 PM - 11:59 PM";
+}
 
 // Initialize the map and set its view to the user's current position
 map.locate({ setView: true, maxZoom: 16 });
@@ -61,8 +80,8 @@ function addMarker(e) {
     } 
 
     if (pickupMarker && dropoffMarker) {
-        let dist = map.distance(start, end).toFixed(0)
-        console.log("distance",dist)
+        dist = getDistance(start, end)
+        console.log("distance", dist)
         console.log(start, end)
         document.getElementById("disance-info").textContent = dist + " m"
     }
@@ -72,7 +91,7 @@ function addMarker(e) {
 // Event listener for adding markers
 map.on("click", addMarker);
 
-async function getTopFares(dist) {
+async function getTopFares() {
     console.log("Fetching top fares...");
     if (!pickupMarker || !dropoffMarker) {
         $('#go-modal').modal('toggle')
@@ -80,9 +99,11 @@ async function getTopFares(dist) {
         await fetch('http://localhost:5000/get-fares', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "Accept": "*/*  "
             },
-            body: JSON.stringify({'distance': dist})
+            mode: "cors",
+            body: JSON.stringify({distance: dist})
         })
             .then(response => response.json())
             .then(data => {
@@ -97,10 +118,31 @@ function displayData(data) {
     const modalBody = $('#data-modal .modal-body')
     modalBody.empty()
 
+    let currentHour = new Date().getHours()
+    let firstElementAdded = false
+    let top
+
+    if (currentHour < 4) currentHour = 1; // 00:00 am - 03:59 am
+    else if (currentHour < 8) currentHour = 2; // 04:00 am - 07:59 am
+    else if (currentHour < 12) currentHour = 3; // 08:00 am - 11:59 am
+    else if (currentHour < 16) currentHour = 4; // 12:00 pm - 03:59 pm
+    else if (currentHour < 20) currentHour = 5; // 04:00 pm - 07:59 pm
+    else currentHour = 6;
+
+    console.log("Hour segment selected: ", currentHour)
+
     data.forEach((record, index) => {
-        const recordDiv = $('<div></div>')
-        recordDiv.text(`Hour Segment: ${record.Hour_Segment}`)
-        modalBody.append(recordDiv)
+        if (record.Hour_Segment >= currentHour && !firstElementAdded) {
+            const recordDiv = $('<div class="record"></div>')
+            recordDiv.html(
+                `<b>Prediction</b><br/>` +
+                `Best time: ${transformHourSegment(record.Hour_Segment)}<br/>` +
+                `Estimated Price: ${Math.round(record.Predicted * 100)/100} $USD<br/>` +
+                `Ride distance: ${dist} m`
+                )
+            modalBody.append(recordDiv)
+            firstElementAdded = true
+        }
     })
 
     $('#data-modal').modal('toggle')
@@ -113,8 +155,7 @@ function resetPins() {
 }
 
 function updateDateTime() {
-    var elementDateTime = document.getElementById("fechaHora");
-    var date = new Date();
+    date = new Date();
 
     // inits date and time format
     elementDateTime.innerHTML = date.toLocaleString('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });

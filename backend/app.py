@@ -1,6 +1,5 @@
-import numpy as np
 import pandas as pd
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request
 from flask_cors import CORS
 import json
 
@@ -11,11 +10,11 @@ df = pd.read_csv("./data/predictions.csv")
 
 @app.route('/get-fares', methods=['POST'])
 def getFares():
-    data = request.json
-    print("dataaaaaaaa", data)
+    data = request.get_json()
+    data['distance'] = float(data['distance'])
     r_dist = data['distance']
     df['Distance_diff'] = abs(df['Distance'] - r_dist)
-    top_rows = df.nsmallest(5, 'Distance_diff')
+    top_rows = df.nsmallest(100, 'Distance_diff').sort_values(by='Predicted', ascending=True)
     top_rows = top_rows.drop(columns=['Distance_diff'])
     top_rows_json = top_rows.to_json(orient='records')
     return json.loads(top_rows_json)
