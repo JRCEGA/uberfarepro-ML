@@ -46,7 +46,7 @@ pip install flask
 
 Flask CORS 
 ```
-pip install flask-cors
+pip install Flask-Cors
 ```
 
 Pandas
