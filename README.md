@@ -16,11 +16,11 @@ segment definition:
 
 Hour Segment 1 -> 00:00 AM - 03:59 AM
 
-Hour Segment 2 -> Las horas de tarde ma -> 04:00 AM - 07:59 AM
+Hour Segment 2 -> 04:00 AM - 07:59 AM
 
 Hour Segment 3 -> 08:00 AM - 11:59 AM
 
-Hour Segment 4 -> Las horas del m -> 12:00 PM - 03:59 PM
+Hour Segment 4 -> 12:00 PM - 03:59 PM
 
 Hour Segment 5 -> 04:00 PM - 07:59 PM
 
