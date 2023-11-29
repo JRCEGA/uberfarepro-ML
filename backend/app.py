@@ -3,11 +3,17 @@ from flask import Flask, request
 from flask_cors import CORS
 import json
 
+# Starts flask application
 app = Flask(__name__)
 CORS(app)
 
 df = pd.read_csv("./data/predictions.csv")
 
+# Backend endpoint
+# This endpoint receives POST requests with the information sended from the Frontend
+# The endpoint receives an object and parses it into a Json object
+# The it extracts the distance field and use that compare the closest distances from the trained dataset
+# Then the endpoint return the top 100 observations with the closest distance as a response
 @app.route('/get-fares', methods=['POST'])
 def getFares():
     data = request.get_json()
